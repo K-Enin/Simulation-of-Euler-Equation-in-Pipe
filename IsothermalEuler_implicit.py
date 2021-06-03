@@ -2,11 +2,10 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu May 27 12:11:08 2021
-
 @author: katharinaenin
-"""
 
-# Isothermal Euler with implicit Box-Scheme
+Isothermal Euler with implicit Box-Scheme
+"""
 
 import numpy as np
 import math
@@ -22,35 +21,31 @@ P_impl = np.zeros((m,n))
 Q_impl = np.zeros((m,n))
 
 # Step sizes & constants
-dt = 1 # old: 1s
-dx = 2000 #2000(m) klappt nicht
+dt = 15 # old: 1s
+dx = 2 # 2000(m) klappt nicht
 
 a_square = 115600
 D = 0.5
 Lambda = 0.011
 
-condition = 1
+condition = 3
 
 # Initial conditions
 p_in = 60 
 q_in = 100
 
 # Test different conditions
+
+# Condition 1
 if condition == 1:
-    ###################
-    ### Condition 1 ###
-    ###################
     P_impl[0,:] = p_in  #t = 0
-    P_impl[:,0] = p_in  
+    P_impl[:,0] = p_in  #at beginning of pipe
     
     Q_impl[0,:] = q_in  #t = 0
     Q_impl[:,0] = q_in  #at beginning of pipe
 
+# Condition 2 (sudden fall of pressure and flux)
 elif condition == 2: 
-    ###################
-    ### Condition 2 ###
-    ###################
-    
     P_impl[0,:] = p_in  #t = 0
     Q_impl[0,:] = q_in  #t = 0
     
@@ -66,13 +61,12 @@ elif condition == 2:
         else: 
             Q_impl[i,0] = 50
 
+# Condition 3 (smooth fall of pressure)
 elif condition == 3:
-    ###################
-    ### Condition 3 ###
-    ###################
-    
     P_impl[0,:] = p_in  #t = 0
     Q_impl[0,:] = q_in  #t = 0
+    Q_impl[:,0] = q_in
+    
     # at beginning of pipe pressure is diminishing
     for i in range(0,m):
         P_impl[i,0] = p_in*math.exp(1/1000*(-i))
