@@ -33,33 +33,28 @@ Lambda = 0.011
 p_in = 60 
 q_in = 100
 
-condition = 1
+condition = 2
 
 # Test different conditions
+
+# Condition 1
 if condition == 1:
-    ###################
-    ### Condition 1 ###
-    ###################
     P[0,:] = p_in  #t = 0
     #P[:,0] = p_in  
     
     Q[0,:] = q_in  #t = 0
     #Q[:,0] = q_in  #at beginning of pipe
-    
+
+# Condition 2
 elif condition == 2:
-    ###################
-    ### Condition 2 ###
-    ###################
     P[0,:] = p_in  #t = 0
     P[:,0] = p_in  #at beginning of the pipe
     
     Q[0,:] = q_in  #t = 0
     Q[:,n-1] = q_in  #at end of the pipe
-    
+  
+# Condition 3
 elif condition == 3: 
-    ###################
-    ### Condition 3 ###
-    ###################
     
     P[0,:] = p_in  #t = 0
     Q[0,:] = q_in  #t = 0
@@ -84,9 +79,14 @@ elif condition == 3:
 
 if condition == 1 or condition == 3:
     for t in range(0,m-1):
-        for l in range(1,n):
+        for l in range(1,n-1):
             P[t+1,l] = P[t,l] + dt*((1/dx)*(Q[t,l-1]-Q[t,l]))
             Q[t+1,l] = Q[t,l] + dt*((a_square/dx)*(P[t,l-1]-P[t,l])-Lambda*Q[t,l]*abs(Q[t,l])/(2*D*P[t,l]))
 
 
-
+if condition == 2:
+    for t in range(0,m-1):
+        for l in range(0,n-1):
+            P[t+1,l+1] = P[t,l+1] + dt*((1/dx)*(Q[t,l]-Q[t,l+1]))
+        for l in range(1,n):
+            Q[t+1,n-1-l] = Q[t,n-1-l] + dt*((a_square/dx)*(P[t,n-1-l]+P[t,n-1-l+1])-Lambda*Q[t,n-1-l]*abs(Q[t,n-1-l])/(2*D*P[t,n-1-l]))
