@@ -1,5 +1,10 @@
 Simulation of Euler Equation in a Single Pipe
 
+<div id="bigtext">
+    <span>BIGTEXT</span>
+    <span>Makes Text Big</span>
+</div>
+
 This repository provides different simulations of Euler Equations in a pipe.
 In this code the task is to find the density and flux on a pipe of length of 150 km for every time step and every pipe section, given certain initial conditions. 
 
