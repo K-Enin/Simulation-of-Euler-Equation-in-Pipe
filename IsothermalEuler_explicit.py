@@ -9,11 +9,12 @@ Isothermal Euler with Simple Upwind Scheme (explicit)
 
 import numpy as np
 import math
+from numpy import savetxt
 
 # (mxn) Matrix
 # m - number of time points
 # n - number of space points
-m, n = 36000, 75; 
+m, n = 3600, 75; 
 
 # Define  matrix
 P_exp = np.zeros((m,n))
@@ -40,7 +41,7 @@ condition = 2
 
 # Condition 1 (p,q given at beginning of pipe for all t)
 if condition == 1:
-    print("Using condition "+condition)
+    print("Using condition " + str(condition))
     P_exp[0,:] = p_in  #t = 0
     P_exp[:,0] = p_in  
     
@@ -49,7 +50,7 @@ if condition == 1:
 
 # Condition 2 (p given at beginning at q at end of pipe for all t)
 elif condition == 2:
-    print("Using condition "+condition)
+    print("Using condition " + str(condition))
     P_exp[0,:] = p_in  #t = 0
     P_exp[:,0] = p_in  #at beginning of the pipe
     
@@ -58,7 +59,7 @@ elif condition == 2:
 
 # Condition 3 (sudden fall of pressure and flux)
 elif condition == 3:
-    print("Using condition "+condition)
+    print("Using condition " + str(condition))
     P_exp[0,:] = p_in  #t = 0
     Q_exp[0,:] = q_in  #t = 0
     
@@ -91,8 +92,5 @@ elif condition == 2:
             #Q_exp[t+1,n-1-l] = Q_exp[t,n-1-l]-(dt/dx)*(a_square*P_exp[t,n-1-l]+Q_exp[t,n-1-l]*Q_exp[t,n-1-l]/P_exp[t,n-1-l]-a_square*P_exp[t,n-l]-Q_exp[t,n-l]*Q_exp[t,n-l]/P_exp[t,n-l])-dt*Lambda*Q_exp[t,n-1-l]*abs(Q_exp[t,n-1-l])/(2*D*P_exp[t,n-1-l])
             Q_exp[t+1,n-l-1] = Q_exp[t,n-l-1]+(dt/dx)*(a_square*P_exp[t,n-l-1]+Q_exp[t,n-l-1]*Q_exp[t,n-l-1]/P_exp[t,n-l-1]-a_square*P_exp[t,n-l]-Q_exp[t,n-l]*Q_exp[t,n-l]/P_exp[t,n-l])-dt*(Lambda*Q_exp[t,n-l-1]*abs(Q_exp[t,n-l-1]))/(2*D*P_exp[t,n-l-2])
         
-        
-        
-        
-        
-        
+    savetxt('IsothermalEuler_matrixP.csv', P_exp, fmt = '%10.4f', delimiter = ';')
+    savetxt('IsothermalEuler_matrixQ.csv', Q_exp, fmt = '%10.4f', delimiter = ';')

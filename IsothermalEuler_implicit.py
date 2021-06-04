@@ -83,8 +83,9 @@ for t in range(0,m-1):
                  dt/dx*(y*y/x+a_square*x-Q_impl[t+1,l-1]*Q_impl[t+1,l-1]/P_impl[t+1,l-1]-
                         a_square*P_impl[t+1,l-1])-dt/2*(-Lambda*y*y/(2*D*x)-
                             Lambda*Q_impl[t+1,l-1]*Q_impl[t+1,l-1]/(2*D*P_impl[t+1,l-1])))
-        sol_dict = solve((eq1,eq2), (x, y)) # hier mehrere Lösungen
+        sol_dict = solve((eq1,eq2), (x, y)) # here multiple solutions
         
+        # find the p, q that are more close to the previos p, q, otherwise overflow
         if abs(P_impl[t,l] - sol_dict[0][0]) > abs(P_impl[t,l] - sol_dict[1][0]):
             P_impl[t+1,l] = sol_dict[1][0]
             Q_impl[t+1,l] = sol_dict[1][1]
@@ -97,4 +98,3 @@ for t in range(0,m-1):
         print(sol_dict)
         print("This is P: " + str(P_impl[t+1,l]))
         print("This is Q: " +  str(Q_impl[t+1,l]))
-

@@ -9,13 +9,14 @@ Weymouth Equation (simplified Isothermal) with Simple Upwind Scheme (explicit)
 
 import numpy as np
 import math
+from numpy import savetxt
 
 # (mxn) Matrix
 # m - number of time points
 # n - number of space points
 # m = 3600 means we simulate for 1 minute
 # n = 75 => 75*2000m = 75*2km = 150km
-m, n = 36000, 75; 
+m, n = 3600, 75;
 
 # Define  matrix
 P = np.zeros((m,n))
@@ -43,7 +44,7 @@ condition = 2
 
 # Condition 1 (p,q given at beginning of pipe for all t)
 if condition == 1:
-    print("Using condition " + condition)
+    print("Using condition " + str(condition))
     P[0,:] = p_in  #t = 0
     P[:,0] = p_in  
     
@@ -52,7 +53,7 @@ if condition == 1:
 
 # Condition 2 (p given at the beginning, q given at the end of pipe for all t)
 elif condition == 2:
-    print("Using condition " + condition)
+    print("Using condition " + str(condition))
     P[0,:] = p_in  #t = 0
     P[:,0] = p_in  #at beginning of the pipe
     
@@ -61,7 +62,7 @@ elif condition == 2:
   
 # Condition 3
 elif condition == 3: 
-    print("Using condition " + condition)
+    print("Using condition " + str(condition))
     P[0,:] = p_in  #t = 0
     Q[0,:] = q_in  #t = 0
     
@@ -94,3 +95,6 @@ if condition == 2:
             P[t+1,l+1] = P[t,l+1] + (dt/dx)*(Q[t,l]-Q[t,l+1])
         for l in range(1,n):
             Q[t+1,n-1-l] = Q[t,n-1-l] + dt*(a_square/dx*(P[t,n-1-l]-P[t,n-1-l+1]))-dt*Lambda*Q[t,n-1-l]*abs(Q[t,n-1-l])/(2*D*P[t,n-1-l])
+
+    savetxt('Weymouth_matrixP.csv', P, fmt = '%10.4f', delimiter = ';')
+    savetxt('Weymouth_matrixQ.csv', Q, fmt = '%10.4f', delimiter = ';')
