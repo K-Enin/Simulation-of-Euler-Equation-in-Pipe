@@ -7,4 +7,4 @@ Here, three files are provided with three different methods of solving the equat
 Here we apply the implicit Box Scheme and the explicit Simple Upwind Scheme on the Euler equation as well as the Simple Upwind Scheme on 
 the Weymouth equation (a simplified version of the Euler Scheme).
 
-These repo is for testing purposes only and is a helpful tool for comparisons of the methods described above. 
+This repo is for testing purposes only and is a helpful tool for comparisons of the methods described above. 
